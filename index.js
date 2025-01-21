@@ -8,7 +8,7 @@ await mongoose.connect(process.env.MONGODB_URL);
 
 // // Middleware voor JSON-gegevens
 app.use(express.json());
-//
+
 // // Middleware voor www-urlencoded-gegevens
 app.use(express.urlencoded({extended: true}));
 app.use((req,res,next) =>{
