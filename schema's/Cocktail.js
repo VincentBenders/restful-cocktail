@@ -12,10 +12,10 @@ const cocktialSchema = new mongoose.Schema({
 
             ret._links = {
                 self: {
-                    href: `${process.env.BASE_URL}/cocktials/${ret._id}`
+                    href: `${process.env.BASE_URL}/cocktails/${ret._id}`
                 },
                 collection: {
-                    href: `${process.env.BASE_URL}/cocktials`
+                    href: `${process.env.BASE_URL}/cocktails`
                 }
             }
 

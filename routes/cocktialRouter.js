@@ -40,6 +40,7 @@ cocktailRouter.options('/cocktails', async (req, res) => {
 cocktailRouter.options('/cocktails/:id', async (req, res) => {
     res.setHeader("Allow", "GET,PUT,DELETE,OPTIONS");
     res.setHeader("Access-Control-Allow-Methods", "GET,PUT,DELETE,OPTIONS");
+
     res.status(204).send();
 });
 
@@ -59,6 +60,21 @@ cocktailRouter.post('/cocktails', async (req,res) =>{
     }
 });
 
+cocktailRouter.post('/cocktails/seed/:count', async (req, res) =>{
+    const count = req.params.count;
+    for (let i = 0; i <count; i++){
+        let cocktail = Cocktail({
+            name: faker.lorem.slug(),
+            description: faker.lorem.text(),
+            ingredients: faker.person.fullName()
+        })
+        await cocktail.save()
+    }
+    res.json({
+        message: "Cocktails seeded"
+    })
+})
+
 cocktailRouter.put('/cocktails/:id', async (req, res) => {
     const id = req.params.id;
     const cocktail = await Cocktail.findById(id);
@@ -67,10 +83,10 @@ cocktailRouter.put('/cocktails/:id', async (req, res) => {
     cocktail.ingredients = req.body.ingredients;
     if (!cocktail.name || !cocktail.description || !cocktail.ingredients)
     {
-        res.status(400).send('name description & ingredients');
+        res.status(400).send('name description & ingredients cant be empty');
     } else {
         await cocktail.save();
-        res.status(200).json({
+        res.status(201).json({
             message: cocktail
         });
     }
